@@ -1,4 +1,4 @@
-name: C/C++ CI
+name: Build and Package Firmware
 
 on:
   push:
@@ -12,13 +12,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-      with:
-        submodules: recursive
 
-    - name: Setup ARM GCC
-      uses: fiam/arm-none-eabi-gcc@v1.0.2
+    - name: Install ARM Toolchain
+      uses: carlosperate/arm-none-eabi-gcc-action@v1
       with:
-        release: '9-2020-q2'
+        version: '9-2020-q2-update'
 
     - name: Build firmware
       run: make
@@ -28,12 +26,11 @@ jobs:
       with:
         python-version: '3.x'
 
-    - name: Generate zip file
+    - name: Generate zip
       run: python tools/xiaotea/Scripts/prepareZip_online.py
 
-    - name: Upload zip artifact
+    - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: M365_v3_build_${{ github.run_number }}
         path: tools/zip_output
-        retention-days: 5
+        name: M365_v3_build_${{ github.run_number }}
