@@ -16,7 +16,7 @@ jobs:
     - name: Install ARM Toolchain
       uses: carlosperate/arm-none-eabi-gcc-action@v1
       with:
-        release: '9-2020-q2-update'
+        release: '9-2020-q2'
 
     - name: Build firmware
       run: make
